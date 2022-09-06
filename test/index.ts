@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 
 describe("Setup token", function () {
-  it("Should return the new greeting once it's changed", async function () {
+  it("Should setup token, guard and safe contracts successfully", async function () {
     const Token = await ethers.getContractFactory("Token");
     const token = await Token.deploy();
     await token.deployed();
@@ -11,17 +11,14 @@ describe("Setup token", function () {
     const guard = await Guard.deploy();
     await guard.deployed();
 
-    const Safe = await ethers.getContractFactory("GnosisSafe");
+    const Safe = await ethers.getContractFactory("StakeSafe");
     const safe = await Safe.deploy();
     await safe.deployed();
 
-    expect(await safe.greet()).to.equal("Hello, world!");
+    // set guard
+    await safe.setGuard(guard);
 
-    const setGreetingTx = await safe.setGreeting("Hola, mundo!");
-
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await safe.greet()).to.equal("Hola, mundo!");
+    // test guard
+    expect(await safe.getGuard()).to.equal(guard);
   });
 });

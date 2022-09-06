@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 import "hardhat/console.sol";
 
-contract AkaraNFT is ERC20 {
+contract UsherNFT is ERC20 {
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     address private owner;
